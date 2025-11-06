@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Work + Life Tracker</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="app-header" role="banner">
+      <div class="brand">
+        <span aria-hidden="true">⚡</span>
+        <h1>Flow Ops – Work + Life Tracker</h1>
+      </div>
+      <nav aria-label="Primary">
+        <button id="today-tab" class="tab active" data-view="today">Today</button>
+        <button class="tab" data-view="timeline">Timeline</button>
+        <button class="tab" data-view="search">Search</button>
+        <button class="tab" data-view="review">Weekly Review</button>
+        <button class="tab" data-view="insights">Insights</button>
+      </nav>
+    </header>
+
+    <main id="main" class="layout" role="main">
+      <section class="panel capture" aria-labelledby="capture-title">
+        <div class="panel-header">
+          <h2 id="capture-title">Capture anything</h2>
+          <button id="voice-capture" aria-label="Capture using voice">🎤</button>
+        </div>
+        <form id="capture-form">
+          <label for="capture-input" class="sr-only">Describe what you want to capture</label>
+          <textarea id="capture-input" name="text" rows="3" placeholder="e.g. Apply for Senior Data Engineer by Friday 17:00; prep CV + cover; 2h" required></textarea>
+          <div class="actions">
+            <button type="submit" class="primary">Capture</button>
+            <span id="latency" aria-live="polite"></span>
+          </div>
+        </form>
+        <div id="interpretations" aria-live="polite"></div>
+      </section>
+
+      <section id="view-container" class="panel view">
+        <div data-view="today" class="view active" aria-labelledby="today-heading">
+          <header class="panel-header">
+            <h2 id="today-heading">Today</h2>
+            <div class="nudges" aria-live="polite"></div>
+          </header>
+          <div class="today-grid">
+            <section>
+              <h3>Now / Next</h3>
+              <ol id="now-next" class="card-list"></ol>
+            </section>
+            <section>
+              <h3>Agenda</h3>
+              <ol id="agenda" class="card-list"></ol>
+            </section>
+            <section>
+              <h3>AI Nudges</h3>
+              <ol id="nudges-list" class="card-list"></ol>
+            </section>
+          </div>
+        </div>
+
+        <div data-view="timeline" class="view" aria-labelledby="timeline-heading">
+          <header class="panel-header">
+            <h2 id="timeline-heading">Unified timeline</h2>
+            <div>
+              <label>
+                <input type="checkbox" id="blend-toggle" /> Blend work + personal
+              </label>
+            </div>
+          </header>
+          <div class="timeline" role="grid" aria-readonly="true">
+            <aside class="timeline-times" aria-hidden="true"></aside>
+            <div class="timeline-columns">
+              <div class="timeline-column" data-scope="work" aria-label="Work timeline"></div>
+              <div class="timeline-column" data-scope="personal" aria-label="Personal timeline"></div>
+            </div>
+          </div>
+        </div>
+
+        <div data-view="search" class="view" aria-labelledby="search-heading">
+          <header class="panel-header">
+            <h2 id="search-heading">Search &amp; chat</h2>
+          </header>
+          <form id="search-form" role="search">
+            <label class="sr-only" for="search-input">Search query</label>
+            <input id="search-input" type="search" placeholder="Show all job applications due this week" required />
+            <button type="submit" class="primary">Search</button>
+          </form>
+          <div id="search-results" role="region" aria-live="polite"></div>
+        </div>
+
+        <div data-view="review" class="view" aria-labelledby="review-heading">
+          <header class="panel-header">
+            <h2 id="review-heading">Weekly review</h2>
+            <button id="run-review" class="primary">Draft review</button>
+          </header>
+          <div id="review-output"></div>
+        </div>
+
+        <div data-view="insights" class="view" aria-labelledby="insights-heading">
+          <header class="panel-header">
+            <h2 id="insights-heading">Insights</h2>
+            <button id="refresh-insights">Refresh</button>
+          </header>
+          <div id="insights-output"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer" role="contentinfo">
+      <small>&copy; 2025 Flow Ops. Local-first with optional sync. AI suggestions require confirmation.</small>
+    </footer>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
