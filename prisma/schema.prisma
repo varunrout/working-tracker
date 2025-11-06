@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = env("DB_PROVIDER")
+  url      = env("DATABASE_URL")
+}
+
+model Item {
+  id                 String   @id @default(cuid())
+  type               ItemType
+  scope              Scope
+  title              String
+  description        String?  @db.Text
+  status             Status   @default(INBOX)
+  priority           Int      @default(2)
+  tags               Json?
+  contexts           Json?
+  startAt            DateTime?
+  endAt              DateTime?
+  dueAt              DateTime?
+  durationEstMins    Int?
+  durationActualMins Int?
+  recurrence         String?
+  location           String?
+  aiEntities         Json?
+  aiConfidence       Float?
+  dependencies       Json?
+  source             String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([type, status, dueAt])
+  @@index([startAt])
+}
+
+enum ItemType {
+  TASK
+  EVENT
+  NOTE
+  HABIT
+  GOAL
+  IDEA
+  DECISION
+  LOG
+  REMINDER
+}
+
+enum Scope {
+  WORK
+  PERSONAL
+  BOTH
+}
+
+enum Status {
+  INBOX
+  ACTIVE
+  WAITING
+  BLOCKED
+  DONE
+  DROPPED
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  period      String
+  summary     String?  @db.Text
+  wins        Json?
+  blockers    Json?
+  suggestions Json?
+  createdAt   DateTime @default(now())
+}

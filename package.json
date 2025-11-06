@@ -2,13 +2,36 @@
   "name": "working-tracker",
   "version": "0.1.0",
   "type": "module",
-  "description": "AI-powered Work + Life Tracker MVP",
+  "private": true,
+  "description": "AI-powered Work + Life Tracker built with Next.js",
   "scripts": {
-    "dev": "node src/server/index.js",
-    "start": "NODE_ENV=production node src/server/index.js",
-    "test": "node --test"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate"
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.10.2",
+    "framer-motion": "^10.16.4",
+    "next": "14.1.0",
+    "openai": "^4.28.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.19",
+    "@types/react": "18.2.43",
+    "@types/react-dom": "18.2.17",
+    "autoprefixer": "10.4.16",
+    "postcss": "8.4.31",
+    "prisma": "^5.10.2",
+    "tailwindcss": "3.4.1",
+    "typescript": "5.3.3"
   }
 }
