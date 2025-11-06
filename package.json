@@ -1,0 +1,14 @@
+{
+  "name": "working-tracker",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "AI-powered Work + Life Tracker MVP",
+  "scripts": {
+    "dev": "node src/server/index.js",
+    "start": "NODE_ENV=production node src/server/index.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
