@@ -1,57 +1,65 @@
-# Flow Ops – Work + Life Tracker
+# FocusFlow – AI Work + Life Tracker
 
-A local-first MVP for an AI-assisted planner that captures natural language, auto-structures work and life commitments, schedules intelligently, and surfaces insights.
+Next.js 14 (App Router) starter for an AI-assisted planner that captures natural language, auto-structures work and life commitments, schedules intelligently, and surfaces insights.
 
 ## Features
 
-- **Capture anything**: Paste or dictate natural language commands; the built-in parser infers type, scope, timing, tags, contexts, people, and priority.
-- **Inline interpretations**: Primary + alternative parses with editable metadata before committing.
-- **Unified timeline**: Work and personal lanes with drag-to-reschedule interactions and instant quick actions.
-- **Scheduling copilot**: Suggests start/end windows based on energy preferences, external busy blocks, and returns alternatives for conflicts.
-- **Today view**: Curated Now/Next list, agenda, and AI nudges for overdue or neglected work.
-- **Search & chat**: Query by natural language to filter items by scope, type, tags, and due dates.
-- **Weekly review**: One-tap summary of wins, blockers, and suggestions for neglected goals/tasks.
-- **Insights**: Lightweight correlations for completion vs. time of day and habit streak health.
-- **Voice capture**: Uses Web Speech API (when available) for quick dictation.
-- **Audit trail**: Every AI or scheduling action is recorded with metadata in the local JSON store.
+- **Capture anything**: Send free text to `/api/ingest`; OpenAI normalises it into Prisma models.
+- **Tabbed shell**: Today, Timeline, Inbox, Goals, Habits, and Search tabs with a responsive pill-navigation layout.
+- **Quick add**: Client-side capture box wired to the ingest pipeline.
+- **Inbox actions**: Activate/complete items directly from the Inbox tab.
+- **Weekly review**: API route to generate summaries using the OpenAI API.
 
 ## Tech stack
 
-- **Runtime**: Node.js (ES modules only).
-- **Storage**: JSON file under `data/store.json` to simulate a local-first database.
-- **Server**: Custom HTTP server with REST endpoints and static asset hosting.
-- **Client**: Vanilla HTML/CSS/JS with accessible layout, keyboard-friendly interactions, and high-contrast visuals.
-- **Tests**: Node test runner for parser, scheduler, and an end-to-end flow (capture → schedule → search → review).
+- **Runtime**: Next.js 14 + React 18 + TypeScript.
+- **Styling**: Tailwind CSS with a soft glassmorphic layout.
+- **State**: Local client state using hooks (Zustand ready to wire in).
+- **Database**: Prisma ORM with PostgreSQL (or SQLite for local dev).
+- **AI**: OpenAI SDK for parsing capture input and generating reviews.
 
 ## Getting started
 
 ```bash
-npm install # no external deps required
+npm install
+npx prisma generate
+npx prisma migrate dev --name init
 npm run dev
 ```
 
-Visit http://localhost:3000 to use the tracker. Use the capture box to record new tasks, then drag them on the timeline or run scheduling from the API (`POST /api/schedule`).
+Set environment variables in `.env`:
+
+```bash
+OPENAI_API_KEY=sk-...
+OPENAI_MODEL=gpt-4o-mini
+DB_PROVIDER=sqlite # or postgresql
+DATABASE_URL="file:./dev.db" # adjust for your provider
+```
+
+Visit http://localhost:3000 to use the tracker. Use the Quick Add input to capture entries and review them in the Inbox tab.
 
 ## Testing
 
 ```bash
-npm test
+npm run lint
 ```
 
-The suite covers parser accuracy, scheduling heuristics, and the primary capture-to-review happy path.
+Add additional unit/integration tests as features expand.
 
 ## Project structure
 
 ```
-public/          # Front-end assets
-src/shared/      # Parser, scheduler, and utilities shared between server & tests
-src/server/      # HTTP server + store abstraction
-tests/           # Node-based unit and E2E tests
+app/              # Next.js app router pages and API routes
+prisma/           # Prisma schema
+public/           # Static assets (manifest, icons)
+src/lib/          # OpenAI client and helpers
+src/server/       # Prisma client helpers
+src/ui/           # UI components (tabs, quick add)
 ```
 
 ## Roadmap highlights
 
-- Integrate external calendars (Google/Outlook) via feature-flagged connectors.
-- Replace heuristic parser with pluggable LLM or local model interface.
-- Expand offline-first storage and add optional encrypted sync.
-- Add Slack/Teams DM capture, email forwarding, and mobile-friendly PWA shell.
+- Integrate drag-and-drop timeline scheduling via react-big-calendar or FullCalendar.
+- Extend shadcn/ui components for dialogs, date pickers, and command palette.
+- Add voice capture using the Web Speech API and route through the ingest API.
+- Implement PWA service worker for offline-first experience.
